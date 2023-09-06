@@ -30,7 +30,43 @@ const succ = function (position) {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  L.marker(coords).addTo(map).bindPopup('You are here!').openPopup();
+  L.marker(coords)
+    .addTo(map)
+    .bindPopup(
+      L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+      })
+    )
+    .setPopupContent('You are here')
+    .openPopup();
+
+  // console.log(map);
+  map.on('click', function (mapEvent) {
+    console.log(mapEvent);
+    const { lat, lng } = mapEvent.latlng;
+
+    // L.marker(mapEvent.latlng)
+    //   .addTo(map)
+    //   .bindPopup('You clicked here!')
+    //   .openPopup();
+
+    L.marker(mapEvent.latlng)
+      .addTo(map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: 'running-popup',
+        })
+      )
+      .setPopupContent('Workout')
+      .openPopup();
+  });
 };
 
 const err = function () {
